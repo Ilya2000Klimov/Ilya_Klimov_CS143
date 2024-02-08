@@ -133,7 +133,13 @@ pintos_init (void)
     /* Run actions specified on kernel command line. */
     run_actions (argv);
   } else {
-    // TODO: no command line passed to kernel. Run interactively 
+    // TODO: no command line passed to kernel. Run interactively
+    char buf[256];
+    while (true)
+    {
+      printf("CS143A> ");
+      
+    } 
   }
 
   /* Finish up. */
