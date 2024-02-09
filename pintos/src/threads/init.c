@@ -129,23 +129,23 @@ pintos_init (void)
 
   printf ("Boot complete.\n");
   
-  if (*argv != NULL) {
+  if (*argv != NULL) 
+  {
     /* Run actions specified on kernel command line. */
     run_actions (argv);
-  } else {
+  }
+  else 
+  {
     // TODO: no command line passed to kernel. Run interactively
     char buf[256];
     while (true)
     {
-      printf("CS143A> "); //print the prompt evey timebefore reading the command
+      printf("ICS143A>"); //print the prompt evey timebefore reading the command
       int buff_index = 0; //buffer index
 
       while(true)
       {
-        //char c = get_char(); //read the character from the input
-        //c = getc(); //read the character from the input
-        char c = get_char();
-        //read(0, &c, 1); //read the character from the input
+        char c = input_getc(); //get the character from the input
 
         if (c == '\r' || c == '\n')
         {
@@ -169,11 +169,12 @@ pintos_init (void)
       }
       if (strcmp(buf, "exit") == 0) //exit the shell
       {
+        printf("\nTIMEOUT");
         break;
       }
       else if (strcmp(buf, "whoami") == 0) //print the name of the user
       {
-        printf("Ilya Klimov\n");
+        printf("Ilya\n");
       }
       else if (strcmp(buf, "help") == 0) //print help message
       {
@@ -182,21 +183,15 @@ pintos_init (void)
         printf("  help - print this help message\n");
         printf("  whoami - print the name of the current user\n");
       }
-      else if(buf[0] == '\0') //if the command is not empty, but isnt handled by the shell
+      else if(buf[0] != '\0' && buff_index != 0) //if the command is not empty, but isnt handled by the shell
       {
-        printf("print buff index: %d\n", buff_index);
-        printf("Something to print to test"); //print the error message with the buffer
-        printf("Unknown command: %s\n", buf); //print the error message with the buffer
-        printf("print buff index: %d\n", buff_index);
+        printf("invalid command\n"); //print the error message with the buffer
       }
-
-      printf("Execution finished\n");
-      printf("print buff index: %d\n", buff_index);
+      //printf("print buff index: %d\n", buff_index); //debugging
     }
   }
 
   /* Finish up. */
-  printf ("Execution finished\n");
   shutdown ();
   thread_exit ();
 }

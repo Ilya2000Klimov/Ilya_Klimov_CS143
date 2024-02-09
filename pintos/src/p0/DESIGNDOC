@@ -26,6 +26,8 @@ Ilya Klimov <iklimov@uci.edu>
 >> Put the screenshots of Pintos running in src/p0.
 >> A1: Is there any particular issue that you would like us to know?
 
+After removing the build directory and running make, I was unable to run pintos. Upon running the comand `pintos --bochs` I received the following error message: `Kernel not found`. I wasnt able to resolve the issue by running `make clean` and then running `make` again. To resolve the issue I had to git clone the pintos repository again and then run `make` and `make check` again.
+
 			     Kernel Monitor
 			     ==============
 
@@ -38,4 +40,24 @@ Ilya Klimov <iklimov@uci.edu>
 ---- ALGORITHMS ----
 >> C2: Explain how you read and write to the console for the kernel monitor.
 
+I create a buffer to store the input from the console.
+I have a while that is set to true.
+	I set the buffer_counter to be = 0.
+	I make another while(true) loop that will read a character from the console and store it in the buffer.
+		Inside the while loop I have get_char() which reads a character from the console.
+		Then I have a series of if/if else statement that checks the character that was read.
+			If the character is a backspace, If the buffer_counter is > 0 I decrement the buffer_counter and then print a `backspace space backspace` to the console.
+			Else If the character is a newline, I print a newline character, capp off the buffer[buffer_counter++] to be = `\0` and then break out of the while loop.
+			Else If the character is a printable character, I print the character to the console and then store the character in the buffer[buffer_counter++].
+	After the while loop I check what is in the buffer and then execute the command that was entered.
+	If the command is `help` I print a list of all available commands and a brief description of each command.
+	Else If the command is `exit` I break out of the while loop and return to the kernel.
+	Else If the command is `whoami` I print the name of the user.
+	Else if the buffer is not empty I print `Unknown command 'buffer'` to the console.
+
+
 >> C3: Any additional enhancement you implement?
+
+I have added a help command to the kernel monitor. The help command will display a list of all available commands and a brief description of each command.
+
+I have attempted to add arrow key support to the kernel monitor. However, I was unable to get it to work.
