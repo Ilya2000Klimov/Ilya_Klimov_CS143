@@ -137,12 +137,66 @@ pintos_init (void)
     char buf[256];
     while (true)
     {
-      printf("CS143A> ");
-      
-    } 
+      printf("CS143A> "); //print the prompt evey timebefore reading the command
+      int buff_index = 0; //buffer index
+
+      while(true)
+      {
+        //char c = get_char(); //read the character from the input
+        //c = getc(); //read the character from the input
+        char c = get_char();
+        //read(0, &c, 1); //read the character from the input
+
+        if (c == '\r' || c == '\n')
+        {
+          putchar('\n');
+          buf[buff_index++] = '\0';
+          break;
+        }
+        else if (c == '\b' || c == '\x7f') //dealing with backspace '\x7f' is the delete key
+        {
+          if (buff_index > 0)
+          {
+            buff_index--;
+            putbuf("\b \b", 3); //go back on the screen, print a space in the space of the character we want to erase, go back again
+          }
+        }
+        else if (c >= ' ' && c < 255) //print the character and add it to the buffer c > ' ' is to check if the character is askii printable, excludes \t and others like vertical tab \v 
+        {
+          buf[buff_index++] = c;
+          printf("%c", c);
+        }
+      }
+      if (strcmp(buf, "exit") == 0) //exit the shell
+      {
+        break;
+      }
+      else if (strcmp(buf, "whoami") == 0) //print the name of the user
+      {
+        printf("Ilya Klimov\n");
+      }
+      else if (strcmp(buf, "help") == 0) //print help message
+      {
+        printf("Commands:\n");
+        printf("  exit - exit the shell\n");
+        printf("  help - print this help message\n");
+        printf("  whoami - print the name of the current user\n");
+      }
+      else if(buf[0] == '\0') //if the command is not empty, but isnt handled by the shell
+      {
+        printf("print buff index: %d\n", buff_index);
+        printf("Something to print to test"); //print the error message with the buffer
+        printf("Unknown command: %s\n", buf); //print the error message with the buffer
+        printf("print buff index: %d\n", buff_index);
+      }
+
+      printf("Execution finished\n");
+      printf("print buff index: %d\n", buff_index);
+    }
   }
 
   /* Finish up. */
+  printf ("Execution finished\n");
   shutdown ();
   thread_exit ();
 }
